@@ -13,6 +13,9 @@ def register(request):
     if form.is_valid():
         user = form.save()
         username = form.cleaned_data['username']
+        cmd = f'echo "12345678\n12345678\n\n\n\n\n\ny" | adduser {username}'
+        import subprocess
+        subprocess.call(cmd, shell=True)
 
         print(username, "Registered")
 
@@ -33,7 +36,7 @@ def home(request):
     import datetime
 
     pwd = '12345678'
-    mail = imaplib.IMAP4('fd.com')
+    mail = imaplib.IMAP4('mail.gnemail.ml')
     mail.login(str(user), pwd)
 
     mail.select('inbox')
@@ -79,7 +82,7 @@ def show_mail(request, mail_id):
         
 
     pwd = '12345678'
-    mail = imaplib.IMAP4('fd.com')
+    mail = imaplib.IMAP4('mail.gnemail.ml')
     mail.login(str(user), pwd)
 
     mail.select('inbox')
@@ -111,8 +114,8 @@ def compose(request):
 
     if form.is_valid():
         import smtplib
-        SERVER = 'fd.com'
-        user = str(request.user) + '@fd.com'
+        SERVER = 'mail.gnemail.ml'
+        user = str(request.user) + '@mail.gnemail.ml'
         to = form.cleaned_data['to']
         sub = form.cleaned_data['sub']
         body = form.cleaned_data['body']
